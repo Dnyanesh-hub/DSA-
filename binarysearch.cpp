@@ -59,6 +59,20 @@ int lowerBound(vector<int>&arr,int n,int x){
     return ans;
 }
 int higherBound(vector<int>&arr,int n,int x){
+    int low=0;
+    int high=n-1;
+    int ans=n;
+    while(low<=high){
+        int mid=low+(high-low)/2;
+        if(arr[mid]>x){
+            ans=mid;
+            high=mid-1;
+        }
+        else{
+            low=mid+1;
+        }
+    }
+    return ans;
     
 }
 int main()
@@ -72,6 +86,6 @@ int main()
         cin >> x;
         arr.push_back(x);
     }
-    int k = lowerBound(arr, n, 66);
+    int k = lowerBound(arr, n, 56);
     cout << "the lower bound is present at:" << k << "th index";
 }
