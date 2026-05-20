@@ -1,25 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
-vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-         unordered_map<int, int> mp;
+vector<int> nextGreaterElement(vector<int>& nums) {
+        
          stack<int> st;
+         vector<int>ans;
+         int n=nums.size();
+         for(int i=n-1;i>=0;i--){
+               while(!st.empty() && st.top()<=nums[i]){
+                      st.pop();
+               }
+               if(st.empty()){
+                ans[i]=-1;
+               }
+               else{
+                ans[i]=st.top();
+               }
+               st.push(nums[i]);
+         }
+         return ans;
 
-        for (int num : nums2) {
-            while (!st.empty() && st.top() < num) {
-                mp[st.top()] = num;
-                st.pop();
-            }
-            st.push(num);
-        }
-
-        vector<int> ans;
-        for (int num : nums1) {
-            if (mp.find(num) != mp.end())
-                ans.push_back(mp[num]);
-            else
-                ans.push_back(-1);
-        }
-        return ans;
+        
         
     }
 
