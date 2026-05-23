@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-// level order traversal
+
 struct TreeNode
 {
     int val;
@@ -10,6 +10,7 @@ struct TreeNode
     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
+// level order traversal
 
 vector<vector<int>> levelOrder(TreeNode *root)
 {
@@ -42,3 +43,22 @@ vector<vector<int>> levelOrder(TreeNode *root)
     }
     return ans;
 }
+// dfs preorder travesal(root-left-right)
+void postorder(TreeNode*root,vector<int>&ans)
+{
+    if(root==NULL)
+    {
+        return ;
+    }
+    postorder(root->left,ans);
+    postorder(root->right,ans);
+    ans.push_back(root->val);
+
+
+}
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int>result;
+        postorder(root,result);
+        return result;
+        
+    }
