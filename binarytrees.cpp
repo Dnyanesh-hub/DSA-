@@ -43,7 +43,7 @@ vector<vector<int>> levelOrder(TreeNode *root)
     }
     return ans;
 }
-// dfs preorder travesal(root-left-right)
+// dfs post travesal(left right root)
 void postorder(TreeNode*root,vector<int>&ans)
 {
     if(root==NULL)
@@ -60,5 +60,22 @@ void postorder(TreeNode*root,vector<int>&ans)
         vector<int>result;
         postorder(root,result);
         return result;
+        
+    }
+
+// dfs inorder traversal 
+ void inorder(TreeNode*root,vector<int>&ans){
+        if(root==NULL){    //left root right
+            return;
+        }
+        inorder(root->left,ans);
+        ans.push_back(root->val);
+        inorder(root->right,ans);
+
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int>ans;
+        inorder(root,ans);
+        return ans;
         
     }
