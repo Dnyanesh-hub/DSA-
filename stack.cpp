@@ -4,8 +4,9 @@ vector<int> nextGreaterElement(vector<int> &nums)
 {
 
     stack<int> st;
-    vector<int> ans;
     int n = nums.size();
+    vector<int> ans(n);
+    
     for (int i = n - 1; i >= 0; i--)
     {
         while (!st.empty() && st.top() <= nums[i])
@@ -30,8 +31,9 @@ vector<int> nextSmallerElement(vector<int> &nums)
 {
 
     stack<int> st;
-    vector<int> ans;
-    int n = nums.size();
+        int n = nums.size();
+    vector<int> ans(n);
+
     for (int i = 0; i < n - 1; i++)
     {
         while (!st.empty() && st.top() >= nums[i])
