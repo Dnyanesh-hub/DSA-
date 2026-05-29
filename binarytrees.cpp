@@ -361,4 +361,28 @@ vector<int>solution(TreeNode*root,int x){
     getPath(root,ans,x);
     return ans;
 }
+// root to leaf path 
+void dfs(TreeNode*root,string path,vector<string>&ans){
+    if(root==NULL){
+        return ;
+    }
+    if(path==""){
+        path=to_string(root->val);
+    }
+    else{
+        path+="->"+to_string(root->val);
+    }
+    if(root->left==NULL && root->right==NULL){
+        ans.push_back(path);
+        return ;
+    }
+    dfs(root->left,path,ans);
+    dfs(root->right,path,ans);
+}
+vector<string>binaryTreePath(TreeNode*root){
+    vector<string>result;
+    string p="";
+    dfs(root,p,result);
+    return result;
+}
 
