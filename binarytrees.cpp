@@ -341,3 +341,24 @@ vector<int>bottomView(TreeNode*root){
    }
    return ans;
 }
+// root to node path 
+bool getPath(TreeNode*root,vector<int>&ans,int x){
+    if(root==NULL){
+        return false;
+    }
+    ans.push_back(root->val);
+    if(root->val==x){
+        return true;
+    }
+    if(getPath(root->left,ans,x)||getPath(root->right,ans,x)){
+        return true;
+    }
+    ans.pop_back();
+    return false;
+}
+vector<int>solution(TreeNode*root,int x){
+    vector<int>ans;
+    getPath(root,ans,x);
+    return ans;
+}
+
