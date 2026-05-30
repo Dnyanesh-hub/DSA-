@@ -427,7 +427,7 @@ vector<string>binaryTreePath(TreeNode*root){
     }
 // symmetric tree or not
 
-    bool isSymmetricUtil(Node* root1, Node* root2) {
+    bool isSymmetricUtil(TreeNode* root1, TreeNode* root2) {
         // Check if either subtree is NULL
         if (root1 == NULL || root2 == NULL) {
             // If one subtree is NULL, the other
@@ -436,11 +436,11 @@ vector<string>binaryTreePath(TreeNode*root){
         }
         // Check if the data in the current nodes is equal
         // and recursively check for symmetry in subtrees
-        return (root1->data == root2->data)
+        return (root1->val == root2->val)
             && isSymmetricUtil(root1->left, root2->right)
             && isSymmetricUtil(root1->right, root2->left);
     }
-     bool isSymmetric(Node* root) {
+     bool isSymmetric(TreeNode* root) {
         // Check if the tree is empty
         if (!root) {
             // An empty tree is
