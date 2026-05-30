@@ -452,3 +452,41 @@ vector<string>binaryTreePath(TreeNode*root){
         return isSymmetricUtil(root->left, root->right);
     }
 
+//  maintain binary tree child sum property(root=sum of left child +sum or right child)
+void reorder(TreeNode*root){
+    if(root==NULL){
+        return ;
+    }
+    int child=0;
+    if(root->left){
+        child+=root->left->val;
+    }
+    if(root->right){
+        child+=root->right->val;
+    }
+    if(child>=root->val){
+        root->val=child;
+
+    }
+    else{
+        if(root->left){
+            root->left->val=child;
+        }
+        if(root->right){
+            root->right->val=child;
+        }
+    }
+    reorder(root->left);
+    reorder(root->right);
+    int tot=0;
+    if(root->left){
+        tot+=root->left->val;
+    }
+    if(root->right){
+        tot+=root->right->val;
+    }
+    if(root->left,root->right){
+        root->val=tot;
+    }
+}
+
