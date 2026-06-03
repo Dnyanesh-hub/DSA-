@@ -577,5 +577,32 @@ vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
 
     return result;
 }
+// counting the nodes of binary tree recursively brite force apporach 
+ void inorder(TreeNode* root, int &count) {
+        // If current node is NULL, stop processing
+        if (root == NULL) {
+            return;
+        }
+        // Increment count for current node
+        count++;
+        // Recursively count nodes in the left subtree
+        inorder(root->left, count);
+        // Recursively count nodes in the right subtree
+        inorder(root->right, count);
+    }
+
+    // Function to count total number of nodes in the binary tree
+    int countNodes(TreeNode* root) {
+        // If tree is empty, return 0
+        if (root == NULL) {
+            return 0;
+        }
+        // Variable to store node count
+        int count = 0;
+        // Perform inorder traversal to count nodes
+        inorder(root, count);
+        // Return total number of nodes
+        return count;
+    }
 
 
