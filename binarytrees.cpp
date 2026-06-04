@@ -692,64 +692,76 @@ int countNodes(TreeNode *root)
     return 1 + countNodes(root->left) + countNodes(root->right);
 }
 //  min time required to burn the binary tree from given node & min time required to infect binary tree
- TreeNode*mapParents(TreeNode*root,unordered_map<TreeNode*,TreeNode*>&mpp,int start){
-    queue<TreeNode*>q;
+TreeNode *mapParents(TreeNode *root, unordered_map<TreeNode *, TreeNode *> &mpp, int start)
+{
+    queue<TreeNode *> q;
     q.push(root);
-    TreeNode*res=NULL;
-    while(!q.empty()){
-        TreeNode*node=q.front();
-        if(node->val==start){
-            res=node;
+    TreeNode *res = NULL;
+    while (!q.empty())
+    {
+        TreeNode *node = q.front();
+        if (node->val == start)
+        {
+            res = node;
         }
         q.pop();
-        if(node->left){
-            mpp[node->left]=node;
+        if (node->left)
+        {
+            mpp[node->left] = node;
             q.push(node->left);
         }
-        if(node->right){
-            mpp[node->right]=node;
+        if (node->right)
+        {
+            mpp[node->right] = node;
             q.push(node->right);
         }
     }
     return res;
-   }
-   int maxiTime(unordered_map<TreeNode*,TreeNode*>&mpp,TreeNode*target){
-       queue<TreeNode*>q;
-       q.push(target);
-       unordered_map<TreeNode*,bool>vis;
-       vis[target]=true;
-       int time=0;
-       while(!q.empty()){
-        int sz=q.size();
-        bool fl=false;
-        for(int i=0;i<sz;i++){
-            auto node=q.front();
+}
+int maxiTime(unordered_map<TreeNode *, TreeNode *> &mpp, TreeNode *target)
+{
+    queue<TreeNode *> q;
+    q.push(target);
+    unordered_map<TreeNode *, bool> vis;
+    vis[target] = true;
+    int time = 0;
+    while (!q.empty())
+    {
+        int sz = q.size();
+        bool fl = false;
+        for (int i = 0; i < sz; i++)
+        {
+            auto node = q.front();
             q.pop();
-            if(node->left && !vis[node->left]){
-                fl=true;
-                vis[node->left]=true;
+            if (node->left && !vis[node->left])
+            {
+                fl = true;
+                vis[node->left] = true;
                 q.push(node->left);
             }
-            if(node->right && !vis[node->right]){
-                fl=true;
-                vis[node->right]=true;
+            if (node->right && !vis[node->right])
+            {
+                fl = true;
+                vis[node->right] = true;
                 q.push(node->right);
             }
-            if(mpp.find(node)!=mpp.end() && !vis[mpp[node]]){
-                fl=true;
-                vis[mpp[node]]=true;
+            if (mpp.find(node) != mpp.end() && !vis[mpp[node]])
+            {
+                fl = true;
+                vis[mpp[node]] = true;
                 q.push(mpp[node]);
             }
         }
-        if(fl){
+        if (fl)
+        {
             time++;
         }
-       }
-       return time;
-   }
-    int amountOfTime(TreeNode* root, int start) {
-        unordered_map<TreeNode*,TreeNode*>mpp;
-        TreeNode*target=mapParents(root,mpp,start);
-        return maxiTime(mpp,target);
-        
- }
+    }
+    return time;
+}
+int amountOfTime(TreeNode *root, int start)
+{
+    unordered_map<TreeNode *, TreeNode *> mpp;
+    TreeNode *target = mapParents(root, mpp, start);
+    return maxiTime(mpp, target);
+}
