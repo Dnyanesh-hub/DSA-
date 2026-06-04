@@ -794,3 +794,28 @@ TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
                            inorder.size() - 1, mp);
     return root;
 }
+// building unique binary tre from postorder and inorder traversal 
+  TreeNode*build(vector<int>&inorder,int inst,int inend,vector<int>&postorder,int postst,int postend,map<int,int>&mp){
+         if(inst>inend || postst>postend){
+            return NULL;
+         }
+         TreeNode* root=new TreeNode(postorder[postend]);
+    
+         int inroot=mp[root->val];
+         int numleft=inroot-inst;
+         root->left=build(inorder,inst,inroot-1,postorder,postst,postst+numleft-1,mp);
+         root->right=build(inorder,inroot+1,inend,postorder,postst+numleft,postend-1,mp);
+         return root;
+
+   }
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        map<int,int>mp;
+        for(int i=0;i<inorder.size();i++){
+            mp[inorder[i]]=i;
+        }
+        TreeNode* root=build(inorder,0,inorder.size()-1,postorder,0,postorder.size()-1,mp);
+        return root;
+
+        
+    }
+    
