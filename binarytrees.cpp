@@ -765,3 +765,32 @@ int amountOfTime(TreeNode *root, int start)
     TreeNode *target = mapParents(root, mpp, start);
     return maxiTime(mpp, target);
 }
+// building unique binary tree using inorder and preorder traversal of tree
+TreeNode *build(vector<int> &preorder, int prest, int preend,
+                vector<int> &inorder, int inst, int inend,
+                map<int, int> &inMap)
+{
+    if (prest > preend || inst > inend)
+    {
+        return nullptr;
+    }
+    TreeNode *root = new TreeNode(preorder[prest]);
+    int inroot = inMap[root->val];
+    int numleft = inroot - inst;
+    root->left = build(preorder, prest + 1, prest + numleft, inorder, inst,
+                       inroot - 1, inMap);
+    root->right = build(preorder, prest + numleft + 1, preend, inorder,
+                        inroot + 1, inend, inMap);
+    return root;
+}
+TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
+{
+    map<int, int> mp;
+    for (int i = 0; i < inorder.size(); i++)
+    {
+        mp[inorder[i]] = i;
+    }
+    TreeNode *root = build(preorder, 0, preorder.size() - 1, inorder, 0,
+                           inorder.size() - 1, mp);
+    return root;
+}
