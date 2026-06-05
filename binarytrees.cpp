@@ -794,28 +794,102 @@ TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder)
                            inorder.size() - 1, mp);
     return root;
 }
-// building unique binary tre from postorder and inorder traversal 
-  TreeNode*build(vector<int>&inorder,int inst,int inend,vector<int>&postorder,int postst,int postend,map<int,int>&mp){
-         if(inst>inend || postst>postend){
-            return NULL;
-         }
-         TreeNode* root=new TreeNode(postorder[postend]);
-    
-         int inroot=mp[root->val];
-         int numleft=inroot-inst;
-         root->left=build(inorder,inst,inroot-1,postorder,postst,postst+numleft-1,mp);
-         root->right=build(inorder,inroot+1,inend,postorder,postst+numleft,postend-1,mp);
-         return root;
-
-   }
-    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-        map<int,int>mp;
-        for(int i=0;i<inorder.size();i++){
-            mp[inorder[i]]=i;
-        }
-        TreeNode* root=build(inorder,0,inorder.size()-1,postorder,0,postorder.size()-1,mp);
-        return root;
-
-        
+// building unique binary tre from postorder and inorder traversal
+TreeNode *build(vector<int> &inorder, int inst, int inend, vector<int> &postorder, int postst, int postend, map<int, int> &mp)
+{
+    if (inst > inend || postst > postend)
+    {
+        return NULL;
     }
-    
+    TreeNode *root = new TreeNode(postorder[postend]);
+
+    int inroot = mp[root->val];
+    int numleft = inroot - inst;
+    root->left = build(inorder, inst, inroot - 1, postorder, postst, postst + numleft - 1, mp);
+    root->right = build(inorder, inroot + 1, inend, postorder, postst + numleft, postend - 1, mp);
+    return root;
+}
+TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder)
+{
+    map<int, int> mp;
+    for (int i = 0; i < inorder.size(); i++)
+    {
+        mp[inorder[i]] = i;
+    }
+    TreeNode *root = build(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1, mp);
+    return root;
+}
+// serialize and deserialize the binary tree
+// Encodes a tree to a single string.
+string serialize(TreeNode *root)
+{
+    if (root == NULL)
+    {
+        return "";
+    }
+    string s = "";
+    queue<TreeNode *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        TreeNode *node = q.front();
+        q.pop();
+        if (node == NULL)
+        {
+            s.append("#,");
+        }
+        else
+        {
+            s.append(to_string(node->val) + ',');
+        }
+        if (node != NULL)
+        {
+            q.push(node->left);
+            q.push(node->right);
+        }
+    }
+    return s;
+}
+
+// Decodes your encoded data to tree.
+TreeNode *deserialize(string data)
+{
+    if (data.size() == 0)
+    {
+        return NULL;
+    }
+    stringstream s(data);
+    string str;
+    getline(s, str, ',');
+    TreeNode *root = new TreeNode(stoi(str));
+    queue<TreeNode *> q;
+    q.push(root);
+    while (!q.empty())
+    {
+        TreeNode *node = q.front();
+        q.pop();
+        getline(s, str, ',');
+        if (str == "#")
+        {
+            node->left = NULL;
+        }
+        else
+        {
+            TreeNode *leftnode = new TreeNode(stoi(str));
+            node->left = leftnode;
+            q.push(leftnode);
+        }
+        getline(s, str, ',');
+        if (str == "#")
+        {
+            node->right = NULL;
+        }
+        else
+        {
+            TreeNode *rightnode = new TreeNode(stoi(str));
+            node->right = rightnode;
+            q.push(rightnode);
+        }
+    }
+    return root;
+}
