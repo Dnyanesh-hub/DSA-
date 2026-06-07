@@ -951,26 +951,74 @@ void flatten(TreeNode *root)
     // update previous to current
     prev = root;
 }
-// flatten binary tree using stack 
+// flatten binary tree using stack
 
-void flattenTreeUsingStack(TreeNode* root){
-    if(root==NULL){
-        return ;
+void flattenTreeUsingStack(TreeNode *root)
+{
+    if (root == NULL)
+    {
+        return;
     }
-    stack<TreeNode*>st;
+    stack<TreeNode *> st;
     st.push(root);
-    while(!st.empty()){
-        TreeNode* curr=st.top();
+    while (!st.empty())
+    {
+        TreeNode *curr = st.top();
         st.pop();
-        if(curr->right!=NULL){
+        if (curr->right != NULL)
+        {
             st.push(curr->right);
         }
-        if(curr->left!=NULL){
+        if (curr->left != NULL)
+        {
             st.push(curr->left);
         }
-        if(!st.empty()){
-            curr->right=st.top();
+        if (!st.empty())
+        {
+            curr->right = st.top();
         }
-        curr->left=NULL;
+        curr->left = NULL;
+    }
+}
+// optimal approach to flatten binary tree using the concept of morris traversal in the O(1) space complexity
+void flatten(TreeNode *root)
+{
+    // Initialize a pointer
+    // 'curr' to the root of the tree
+    TreeNode *curr = root;
+
+    // Iterate until 'curr'
+    // becomes NULL
+    while (curr)
+    {
+        // Check if the current
+        // node has a left child
+        if (curr->left)
+        {
+            // If yes, find the rightmost
+            // node in the left subtree
+            TreeNode *pre = curr->left;
+            while (pre->right)
+            {
+                pre = pre->right;
+            }
+
+            // Connect the rightmost node in
+            // the left subtree to the current
+            //  node's right child
+            pre->right = curr->right;
+
+            // Move the entire left subtree to the
+            // right child of the current node
+            curr->right = curr->left;
+
+            // Set the left child of
+            // the current node to NULL
+            curr->left = NULL;
+        }
+
+        // Move to the next node
+        // on the right side
+        curr = curr->right;
     }
 }
