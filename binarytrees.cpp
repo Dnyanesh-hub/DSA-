@@ -930,27 +930,47 @@ vector<int> inorderTraversal(TreeNode *root)
     return ans;
 }
 // flatten binary tree  brute force approach
-class Solution
-{
-public:
-    // previous node pointer for reverse preorder linking
-    TreeNode *prev = nullptr;
 
-    // flatten tree to right-skewed linked list (preorder sequence)
-    void flatten(TreeNode *root)
-    {
-        // return if node is null
-        if (root == nullptr)
-            return;
-        // flatten right subtree first
-        flatten(root->right);
-        // flatten left subtree next
-        flatten(root->left);
-        // connect current node's right to previously processed node
-        root->right = prev;
-        // nullify left pointer
-        root->left = nullptr;
-        // update previous to current
-        prev = root;
+// previous node pointer for reverse preorder linking
+
+// flatten tree to right-skewed linked list (preorder sequence)
+void flatten(TreeNode *root)
+{
+    TreeNode *prev = nullptr;
+    // return if node is null
+    if (root == nullptr)
+        return;
+    // flatten right subtree first
+    flatten(root->right);
+    // flatten left subtree next
+    flatten(root->left);
+    // connect current node's right to previously processed node
+    root->right = prev;
+    // nullify left pointer
+    root->left = nullptr;
+    // update previous to current
+    prev = root;
+}
+// flatten binary tree using stack 
+
+void flattenTreeUsingStack(TreeNode* root){
+    if(root==NULL){
+        return ;
     }
-};
+    stack<TreeNode*>st;
+    st.push(root);
+    while(!st.empty()){
+        TreeNode* curr=st.top();
+        st.pop();
+        if(curr->right!=NULL){
+            st.push(curr->right);
+        }
+        if(curr->left!=NULL){
+            st.push(curr->left);
+        }
+        if(!st.empty()){
+            curr->right=st.top();
+        }
+        curr->left=NULL;
+    }
+}
