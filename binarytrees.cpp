@@ -925,7 +925,32 @@ vector<int> inorderTraversal(TreeNode *root)
                 curr = curr->right;
             }
         }
-    }  
-    
+    }
+
     return ans;
 }
+// flatten binary tree  brute force approach
+class Solution
+{
+public:
+    // previous node pointer for reverse preorder linking
+    TreeNode *prev = nullptr;
+
+    // flatten tree to right-skewed linked list (preorder sequence)
+    void flatten(TreeNode *root)
+    {
+        // return if node is null
+        if (root == nullptr)
+            return;
+        // flatten right subtree first
+        flatten(root->right);
+        // flatten left subtree next
+        flatten(root->left);
+        // connect current node's right to previously processed node
+        root->right = prev;
+        // nullify left pointer
+        root->left = nullptr;
+        // update previous to current
+        prev = root;
+    }
+};
