@@ -1047,3 +1047,26 @@ TreeNode *searchInBst(TreeNode *root, int val)
 
     return NULL;
 }
+
+int ceil(TreeNode *root, int key)
+{
+    int ceil = -1;
+    while (root != NULL)
+    {
+        if (root->val == key)
+        {
+            ceil = root->val;
+            return ceil;
+        }
+        if (key > root->val)
+        {
+            root = root->right;
+        }
+        else
+        {
+            ceil = root->val;
+            root = root->left;
+        }
+    }
+    return ceil;
+}
