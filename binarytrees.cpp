@@ -1168,7 +1168,7 @@ void inorder(TreeNode *root)
     arr.push_back(root->val);
     inorder(root->right);
 }
-// optimal solution for the finding ceil and floor of given query using lower bound concept 
+// optimal solution for the finding ceil and floor of given query using lower bound concept
 vector<vector<int>> closestNodes(TreeNode *root, vector<int> &queries)
 {
     inorder(root);
@@ -1236,4 +1236,68 @@ TreeNode *insertIntoBST(TreeNode *root, int val)
         }
     }
     return root;
+}
+// deleting the node in the binary tree by mainting the propert of binary tree
+TreeNode *findLastRight(TreeNode *root)
+{
+    if (root->right == NULL)
+    {
+        return root;
+    }
+    return findLastRight(root->right);
+}
+TreeNode *helper(TreeNode *root)
+{
+    if (root->left == NULL)
+    {
+        return root->right;
+    }
+    if (root->right == NULL)
+    {
+        return root->left;
+    }
+    TreeNode *rightChild = root->right;
+    TreeNode *lastRight = findLastRight(root->left);
+    lastRight->right = rightChild;
+    return root->left;
+}
+TreeNode *deleteNode(TreeNode *root, int key)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    if (root->val == key)
+    {
+        return helper(root);
+    }
+    TreeNode *temp = root;
+    while (root != NULL)
+    {
+        if (root->val > key)
+        {
+            if (root->left != NULL && root->left->val == key)
+            {
+                root->left = helper(root->left);
+                break;
+            }
+            else
+            {
+                root = root->left;
+            }
+        }
+        else
+        {
+            if (root->right != NULL && root->right->val == key)
+            {
+                root->right = helper(root->right);
+                break;
+            }
+            else
+            {
+                root = root->right;
+            }
+        }
+    }
+    return temp;
 }
