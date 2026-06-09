@@ -1047,7 +1047,7 @@ TreeNode *searchInBst(TreeNode *root, int val)
 
     return NULL;
 }
-
+// smallest value which is greater or equal  than the key -ceil 
 int ceil(TreeNode *root, int key)
 {
     int ceil = -1;
@@ -1070,3 +1070,71 @@ int ceil(TreeNode *root, int key)
     }
     return ceil;
 }
+
+// floor in the binary tree the largest value which is lesser than the given key 
+int floor(TreeNode* root,int key){
+    int floor=-1;
+    while(root!=NULL){
+        if(root->val==key){
+            floor=root->val;
+            return floor;
+        }
+        if(key>root->val){
+            floor=root->val;
+            root=root->right;
+        }
+        else{
+            root=root->left;
+        }
+    }
+    return floor;
+}
+// brute force for finding ceil and floor for each of the query 
+class Solution {
+public:
+    //   the smallest largest value greater than the key
+    int ceil(TreeNode* root, int key) {
+        int ceil = -1;
+        while (root != NULL) {
+            if (root->val == key) {
+                ceil = root->val;
+                return ceil;
+            }
+            if (key > root->val) {
+                root = root->right;
+            } else {
+                ceil = root->val;
+                root = root->left;
+            }
+        }
+        return ceil;
+    }
+    //    floor function floor is the smallest largest value greater than key
+    int floor(TreeNode* root, int key) {
+        int floor = -1;
+        while (root != NULL) {
+            if (root->val == key) {
+                floor = root->val;
+                return floor;
+            }
+            if(key>root->val){
+                floor=root->val;
+                root=root->right;
+            }
+            else{
+                root=root->left;
+            }
+        }
+        return floor;
+    }
+    vector<vector<int>> closestNodes(TreeNode* root, vector<int>& queries) {
+        vector<vector<int>>ans;
+        int n=queries.size();
+        for(int i=0;i<n;i++){
+            int c=ceil(root,queries[i]);
+            int f=floor(root,queries[i]);
+            ans.push_back({f,c});
+        }
+        return ans;
+    }
+};
