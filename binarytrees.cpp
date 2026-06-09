@@ -1047,7 +1047,7 @@ TreeNode *searchInBst(TreeNode *root, int val)
 
     return NULL;
 }
-// smallest value which is greater or equal  than the key -ceil 
+// smallest value which is greater or equal  than the key -ceil
 int ceil(TreeNode *root, int key)
 {
     int ceil = -1;
@@ -1071,38 +1071,50 @@ int ceil(TreeNode *root, int key)
     return ceil;
 }
 
-// floor in the binary tree the largest value which is lesser than the given key 
-int floor(TreeNode* root,int key){
-    int floor=-1;
-    while(root!=NULL){
-        if(root->val==key){
-            floor=root->val;
+// floor in the binary tree the largest value which is lesser than the given key
+int floor(TreeNode *root, int key)
+{
+    int floor = -1;
+    while (root != NULL)
+    {
+        if (root->val == key)
+        {
+            floor = root->val;
             return floor;
         }
-        if(key>root->val){
-            floor=root->val;
-            root=root->right;
+        if (key > root->val)
+        {
+            floor = root->val;
+            root = root->right;
         }
-        else{
-            root=root->left;
+        else
+        {
+            root = root->left;
         }
     }
     return floor;
 }
-// brute force for finding ceil and floor for each of the query 
-class Solution {
+// brute force for finding ceil and floor for each of the query
+class Solution
+{
 public:
     //   the smallest largest value greater than the key
-    int ceil(TreeNode* root, int key) {
+    int ceil(TreeNode *root, int key)
+    {
         int ceil = -1;
-        while (root != NULL) {
-            if (root->val == key) {
+        while (root != NULL)
+        {
+            if (root->val == key)
+            {
                 ceil = root->val;
                 return ceil;
             }
-            if (key > root->val) {
+            if (key > root->val)
+            {
                 root = root->right;
-            } else {
+            }
+            else
+            {
                 ceil = root->val;
                 root = root->left;
             }
@@ -1110,31 +1122,118 @@ public:
         return ceil;
     }
     //    floor function floor is the smallest largest value greater than key
-    int floor(TreeNode* root, int key) {
+    int floor(TreeNode *root, int key)
+    {
         int floor = -1;
-        while (root != NULL) {
-            if (root->val == key) {
+        while (root != NULL)
+        {
+            if (root->val == key)
+            {
                 floor = root->val;
                 return floor;
             }
-            if(key>root->val){
-                floor=root->val;
-                root=root->right;
+            if (key > root->val)
+            {
+                floor = root->val;
+                root = root->right;
             }
-            else{
-                root=root->left;
+            else
+            {
+                root = root->left;
             }
         }
         return floor;
     }
-    vector<vector<int>> closestNodes(TreeNode* root, vector<int>& queries) {
-        vector<vector<int>>ans;
-        int n=queries.size();
-        for(int i=0;i<n;i++){
-            int c=ceil(root,queries[i]);
-            int f=floor(root,queries[i]);
-            ans.push_back({f,c});
+    vector<vector<int>> closestNodes(TreeNode *root, vector<int> &queries)
+    {
+        vector<vector<int>> ans;
+        int n = queries.size();
+        for (int i = 0; i < n; i++)
+        {
+            int c = ceil(root, queries[i]);
+            int f = floor(root, queries[i]);
+            ans.push_back({f, c});
         }
         return ans;
     }
 };
+vector<int> arr;
+void inorder(TreeNode *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    inorder(root->left);
+    arr.push_back(root->val);
+    inorder(root->right);
+}
+// optimal solution for the finding ceil and floor of given query using lower bound concept 
+vector<vector<int>> closestNodes(TreeNode *root, vector<int> &queries)
+{
+    inorder(root);
+    vector<vector<int>> ans;
+    for (int q : queries)
+    {
+        auto it = lower_bound(arr.begin(), arr.end(), q);
+        int floor = -1;
+        int ceil = -1;
+        if (it != arr.end())
+        {
+            ceil = *it;
+        }
+        if (it != arr.begin())
+        {
+            floor = *(prev(it));
+        }
+        if (it != arr.end() && *it == q)
+        {
+            floor = q;
+            ceil = q;
+        }
+        ans.push_back({floor, ceil});
+    }
+    return ans;
+}
+
+// insert value in the binary tree
+TreeNode *insertIntoBST(TreeNode *root, int val)
+{
+    if (root == NULL)
+    {
+        return new TreeNode(val);
+    }
+    TreeNode *curr = root;
+    while (true)
+    {
+        // agar value to insert is greater than current value aisa hua toh
+        // go to right
+        if (curr->val <= val)
+        {
+            if (curr->right != NULL)
+            {
+                curr = curr->right;
+            }
+            else
+            {
+                curr->right = new TreeNode(val);
+                break;
+            }
+        }
+        // agar curr val insert krni hain uss value se choti hogi toh will
+        // go the left
+        else
+        {
+            if (curr->left != NULL)
+            {
+                curr = curr->left;
+            }
+            else
+            {
+                curr->left = new TreeNode(val);
+                break;
+            }
+        }
+    }
+    return root;
+}
