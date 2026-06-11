@@ -1426,3 +1426,41 @@ public:
         return false;
     }
 };
+// binary search itreator which checks and gives the next element if there is next element it will return the value of
+// that next node and if there will next node it will give true that there is next node and and if there is no next it
+// will simply return the false and we are using satck to do this cuz it stores our inorder traversal in O(h) space comeplexity
+
+class BSTIterator
+{
+private:
+    stack<TreeNode *> st;
+
+public:
+    BSTIterator(TreeNode *root)
+    {
+        pushAll(root);
+    }
+
+    int next()
+    {
+        TreeNode *tempNode = st.top();
+        st.pop();
+        pushAll(tempNode->right);
+        return tempNode->val;
+    }
+
+    bool hasNext()
+    {
+        return !st.empty();
+    }
+
+private:
+    void pushAll(TreeNode *node)
+    {
+        while (node != NULL)
+        {
+            st.push(node);     // save current node
+            node = node->left; // move left
+        }
+    }
+};
