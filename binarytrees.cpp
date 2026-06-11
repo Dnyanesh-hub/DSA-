@@ -1317,6 +1317,41 @@ TreeNode *lowestCommonAncestor(TreeNode *root, TreeNode *p, TreeNode *q)
 
         return lowestCommonAncestor(root->left, p, q);
     }
-  
-  return root;
+
+    return root;
+}
+// Two sum in the binary search tree using the concept inorder and extra space of O(n)
+void inorder(TreeNode *root, vector<int> &inor)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    inorder(root->left, inor);
+    inor.push_back(root->val);
+    inorder(root->right, inor);
+}
+bool findTarget(TreeNode *root, int k)
+{
+    vector<int> ans;
+    inorder(root, ans);
+    int i = 0;
+    int j = ans.size() - 1;
+    while (i < j)
+    {
+        int sum = ans[i] + ans[j];
+        if (sum == k)
+        {
+            return true;
+        }
+        if (sum > k)
+        {
+            j--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return false;
 }
