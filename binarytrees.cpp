@@ -1464,3 +1464,68 @@ private:
         }
     }
 };
+// recover binary search tree by swaping two nodes
+class Solution
+{
+private:
+    TreeNode *first;
+    TreeNode *prev;
+    TreeNode *middle;
+    TreeNode *last;
+
+private:
+    void inorder(TreeNode *root)
+    {
+        if (root == NULL)
+        {
+            return;
+        }
+
+        inorder(root->left);
+
+        // violation found
+        if (prev != NULL && root->val < prev->val)
+        {
+
+            // first violation
+            if (first == NULL)
+            {
+                first = prev;
+                middle = root;
+            }
+            // second violation
+            else
+            {
+                last = root;
+            }
+        }
+
+        prev = root;
+
+        inorder(root->right);
+    }
+
+public:
+    void recoverTree(TreeNode *root)
+    {
+
+        first = NULL;
+        middle = NULL;
+        last = NULL;
+        prev = NULL;
+
+        inorder(root);
+
+        // two non-adjacent nodes swapped
+        if (first && last)
+        {
+            swap(first->val, last->val);
+        }
+
+        // adjacent nodes swapped
+        else if (first && middle)
+        {
+            swap(first->val, middle->val);
+        }
+    }
+};
