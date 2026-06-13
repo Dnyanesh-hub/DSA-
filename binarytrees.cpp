@@ -1529,3 +1529,58 @@ public:
         }
     }
 };
+
+// maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+class Solution
+{
+    int ans = 0;
+
+    struct Info
+    {
+        bool isBST;
+        int mini;
+        int maxi;
+        int sum;
+
+        Info(bool b, int mn, int mx, int s)
+        {
+            isBST = b;
+            mini = mn;
+            maxi = mx;
+            sum = s;
+        }
+    };
+
+    Info solve(TreeNode *root)
+    {
+        if (root == NULL)
+        {
+            return Info(true, INT_MAX, INT_MIN, 0);
+        }
+
+        Info left = solve(root->left);
+        Info right = solve(root->right);
+
+        if (left.isBST && right.isBST && root->val > left.maxi &&
+            root->val < right.mini)
+        {
+
+            int total = left.sum + right.sum + root->val;
+
+            ans = max(ans, total);
+
+            return Info(true, min(left.mini, root->val),
+                        max(right.maxi, root->val), total);
+        }
+
+        // not BST
+        return Info(false, INT_MIN, INT_MAX, 0);
+    }
+
+public:
+    int maxSumBST(TreeNode *root)
+    {
+        solve(root);
+        return ans;
+    }
+};
