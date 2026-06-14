@@ -1584,3 +1584,27 @@ public:
         return ans;
     }
 };
+// making binary search tree from the preorder traversal
+class Solution {
+public:
+    int index = 0;
+    TreeNode*build(vector<int>&preorder,int low,int high){
+    if(index==preorder.size()){
+        return NULL;
+    }
+    int value=preorder[index];
+    if(value<low || value>high){
+        return NULL;
+    }
+    TreeNode*root=new TreeNode(value);
+    index++;
+    root->left=build(preorder,low,value-1);
+    root->right=build(preorder,value+1,high);
+    return root;
+
+    }
+
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        return build(preorder,INT_MIN,INT_MAX);
+    }
+};
