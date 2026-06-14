@@ -32,3 +32,55 @@ string mapWordWeights(vector<string> &words, vector<int> &weights)
 
     return ans;
 }
+// 2130. Maximum Twin Sum of a Linked List
+// In a linked list of size n, where n is even, the ith node (0-indexed) of the linked list is known as the twin of the (n-1-i)th node, if 0 <= i <= (n / 2) - 1.
+
+// For example, if n = 4, then node 0 is the twin of node 3, and node 1 is the twin of node 2. These are the only nodes with twins for n = 4.
+// The twin sum is defined as the sum of a node and its twin.
+
+// Given the head of a linked list with even length, return the maximum twin sum of the linked list.
+
+struct ListNode
+{
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+int pairSum(ListNode *head)
+{
+
+    stack<int> st;
+
+    ListNode *slow = head;
+    ListNode *fast = head;
+
+    // Step 1: find middle
+    while (fast != NULL && fast->next != NULL)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // Step 2: push second half into stack
+    ListNode *temp = slow;
+    while (temp != NULL)
+    {
+        st.push(temp->val);
+        temp = temp->next;
+    }
+
+    // Step 3: compare first half with reversed second half
+    int ans = 0;
+    temp = head;
+
+    while (!st.empty())
+    {
+        ans = max(ans, temp->val + st.top());
+        st.pop();
+        temp = temp->next;
+    }
+
+    return ans;
+}
