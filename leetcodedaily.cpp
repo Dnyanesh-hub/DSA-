@@ -84,3 +84,27 @@ int pairSum(ListNode *head)
 
     return ans;
 }
+// 2095. Delete the Middle Node of a Linked List
+// You are given the head of a linked list. Delete the middle node, and return the head of the modified linked list.
+
+// The middle node of a linked list of size n is the ⌊n / 2⌋th node from the start using 0-based indexing, where ⌊x⌋ denotes the largest integer less than or equal to x.
+// using slow and fast pointer and prev pointer slow pointer will be having middle node and prev pointer will having node pointing to prev of middle and then we are pointing prev next to slow next and then deleting slow
+ListNode *deleteMiddle(ListNode *head)
+{
+    if (head == NULL or head->next == NULL)
+    {
+        return NULL;
+    }
+    ListNode *slow = head;
+    ListNode *fast = head;
+    ListNode *prev = NULL;
+    while (fast != NULL && fast->next != NULL)
+    {
+        prev = slow;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    prev->next = slow->next;
+    delete slow;
+    return head;
+}
