@@ -1585,26 +1585,48 @@ public:
     }
 };
 // making binary search tree from the preorder traversal
-class Solution {
+class Solution
+{
 public:
     int index = 0;
-    TreeNode*build(vector<int>&preorder,int low,int high){
-    if(index==preorder.size()){
-        return NULL;
+    TreeNode *build(vector<int> &preorder, int low, int high)
+    {
+        if (index == preorder.size())
+        {
+            return NULL;
+        }
+        int value = preorder[index];
+        if (value < low || value > high)
+        {
+            return NULL;
+        }
+        TreeNode *root = new TreeNode(value);
+        index++;
+        root->left = build(preorder, low, value - 1);
+        root->right = build(preorder, value + 1, high);
+        return root;
     }
-    int value=preorder[index];
-    if(value<low || value>high){
-        return NULL;
-    }
-    TreeNode*root=new TreeNode(value);
-    index++;
-    root->left=build(preorder,low,value-1);
-    root->right=build(preorder,value+1,high);
-    return root;
 
-    }
-
-    TreeNode* bstFromPreorder(vector<int>& preorder) {
-        return build(preorder,INT_MIN,INT_MAX);
+    TreeNode *bstFromPreorder(vector<int> &preorder)
+    {
+        return build(preorder, INT_MIN, INT_MAX);
     }
 };
+// maximum path sum of binary tree
+int pathsum(TreeNode *root, int &maxi)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+    int leftsum = max(0, pathsum(root->left, maxi));
+    int rightsum = max(0, pathsum(root->right, maxi));
+    maxi = max(maxi, leftsum + rightsum + root->val);
+    return max(leftsum, rightsum) + root->val;
+}
+int maxPathSum(TreeNode *root)
+{
+    int maxi = INT_MIN;
+    pathsum(root, maxi);
+    return maxi;
+}
