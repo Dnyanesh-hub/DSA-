@@ -74,3 +74,42 @@ bool isSortRotateCheck(vector<int> &nums, int n)
     // first before smallest elemnt and if there are more than two
     // breaking points then array is not sorted and rotated
 }
+
+// remove duplicates in place and give the number of unique elemnts from the array if the array will be having k elements
+// first k elements should be unique elemnts then after that k+1 element index does not matter
+int removeDuplicates(vector<int> &nums, int n)
+{
+    int i = 0;
+    for (int j = 1; j < n; j++)
+    {
+        if (nums[i] != nums[j])
+        {
+            i++;
+            nums[i] = nums[j];
+        }
+    }
+    return i + 1;
+    // the array is already sorted all the duplicate elements will be infront of each other if we are having same 
+    // elements in front of each other like nums[i]==nums[j] just ignore it no need to do anything if
+    //nums[i]!=nums[j]  we are incresing i++ and swapping or assigning value of j to i the index
+    // Since the array is sorted, duplicates are adjacent. I keep one pointer at the last unique element and move another pointer to find new values. Whenever I find a new value, I place it after the unique section
+}
+// rotate array to the left by one place arr=[3,8,7,6] ==> after rotation it would be arr=[8,7,6,3]==>brute force approach 
+// is to create a temporary array put all the elemnt in that array by one place left shifiting one place left and in the end of temp array put the 0th index element of the array and return the array 
+// now optimal approach inplace left shifting by one place we will store the 1st index i mean 0th index element to store in some variabl
+// after storing that variable we will left shift each element by one and in the end we will put that elemnt last of the array 
+void rotateLeftByOne(vector<int>&nums,int n){
+    int temp=nums[0];
+    for(int i=1;i<n;i++){
+        nums[i-1]=nums[i];
+    }
+    nums[n-1]=temp;
+}
+// void rotate element to right by one 
+void rotateRightByOne(vector<int>&nums,int n){
+    int temp=nums[n-1];
+    for(int i=n-2;i>=0;i--){
+        nums[i+1]=nums[i];
+    }
+    nums[0]=temp;
+}
