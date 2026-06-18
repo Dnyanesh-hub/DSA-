@@ -13,7 +13,7 @@ int largestelement(vector<int> &nums, int n)
     }
     return large;
 }
-// find the second largest element in the array if the array is having duplicate elemnts one pass solution 
+// find the second largest element in the array if the array is having duplicate elemnts one pass solution
 int secondLargest(vector<int> &nums, int n)
 {
     int large = INT_MIN;
@@ -30,5 +30,47 @@ int secondLargest(vector<int> &nums, int n)
             slarge = nums[i];
         }
     }
+    if (slarge == INT_MIN)
+    {
+        return -1;
+        // array just only have the largest elemnt only throught out the length [21,21,21,21]
+    }
     return slarge;
+}
+// check weather the array is sorted or not
+bool checkIsSorted(vector<int> &nums, int n)
+{
+    for (int i = 1; i < n; i++)
+    {
+        if (nums[i - 1] > nums[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+// check weather the array is sorted and rotated
+bool isSortRotateCheck(vector<int> &nums, int n)
+{
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (nums[i] > nums[i + 1])
+        {
+            count++;
+        }
+    }
+    if (count > 1)
+    {
+        return false;
+    }
+    return true;
+    // if the array is sorted and rotated there will be one single
+    // rotating or breaking point we need to find that if there will
+    // be more than one breaking point then array will not rotated
+    // and sorted sorted array has the property that the next (every
+    // element>previous elemnt) after rotation there will be two
+    // sorted halfs at the breaking point laregst element comes
+    // first before smallest elemnt and if there are more than two
+    // breaking points then array is not sorted and rotated
 }
