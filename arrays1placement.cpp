@@ -165,23 +165,50 @@ void moveZeros(vector<int> &nums, int n)
             j++;
         }
     }
-    
 }
-// kadanes algorithm maximum subarray sum 
- int maxSubArray(vector<int>& nums) {
-        int maxi=INT_MIN;
-        int n=nums.size();
-        int sum=0;
-        for(int i=0;i<n;i++){
-            sum+=nums[i];
-            if(sum>maxi){
-                maxi=sum;
-            }
-            if(sum<0){
-                sum=0;
-            }
-            
+// kadanes algorithm maximum subarray sum
+int maxSubArray(vector<int> &nums)
+{
+    int maxi = INT_MIN;
+    int n = nums.size();
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += nums[i];
+        if (sum > maxi)
+        {
+            maxi = sum;
         }
-        return maxi;
-        
+        if (sum < 0)
+        {
+            sum = 0;
+        }
     }
+    return maxi;
+}
+// sort 0s 1s and 2s using dutch national flag algorithm
+void sortColors(vector<int> &nums)
+{
+    int n = nums.size();
+    int low = 0;
+    int mid = 0;
+    int high = n - 1;
+    while (mid <= high)
+    {
+        if (nums[mid] == 0)
+        {
+            swap(nums[mid], nums[low]);
+            mid++;
+            low++;
+        }
+        else if (nums[mid] == 1)
+        {
+            mid++;
+        }
+        else
+        {
+            swap(nums[mid], nums[high]);
+            high--;
+        }
+    }
+}
