@@ -164,23 +164,46 @@ int largestAltitude(vector<int> &gain)
 // Maximum Ice Cream Bars
 // It is a sweltering summer day, and a boy wants to buy some ice cream bars.
 
-// At the store, there are n ice cream bars. You are given an array costs of length n, where costs[i] is the price of the ith ice cream bar in coins. The boy initially has coins coins to spend, and he wants to buy as many ice cream bars as possible. 
+// At the store, there are n ice cream bars. You are given an array costs of length n, where costs[i] is the price of the ith ice cream bar in coins. The boy initially has coins coins to spend, and he wants to buy as many ice cream bars as possible.
 
 // Note: The boy can buy the ice cream bars in any order.
 
 // Return the maximum number of ice cream bars the boy can buy with coins coins.
 
 // You must solve the problem by counting sort
-int maxIceCream(vector<int>& costs, int coins) {
-        sort(costs.begin(), costs.end());
-        int count = 0;
-        for (int cost : costs) {
-            if (cost <= coins) {
-                coins-=cost;
-                count++;
-            } else {
-                break;
-            }
+int maxIceCream(vector<int> &costs, int coins)
+{
+    sort(costs.begin(), costs.end());
+    int count = 0;
+    for (int cost : costs)
+    {
+        if (cost <= coins)
+        {
+            coins -= cost;
+            count++;
         }
-        return count;
+        else
+        {
+            break;
+        }
     }
+    return count;
+}
+// Maximum Number of Balloons
+// Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
+
+// You can use each character in text at most once. Return the maximum number of instances that can be formed.
+int maxNumberOfBalloons(string text)
+{
+    vector<int> freq(26, 0);
+    for (char c : text)
+    {
+        freq[c - 'a']++;
+    }
+    int b = freq['b' - 'a'];
+    int a = freq['a' - 'a'];
+    int l = freq['l' - 'a'] / 2;
+    int o = freq['o' - 'a'] / 2;
+    int n = freq['n' - 'a'];
+    return min({b, a, l, o, n});
+}
