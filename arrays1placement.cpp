@@ -212,3 +212,25 @@ void sortColors(vector<int> &nums)
         }
     }
 }
+// re arrange elements by sign
+vector<int> rearrangeArray(vector<int> &nums)
+{
+    int n = nums.size();
+    int ipos = 0;
+    int ineg = 1;
+    vector<int> ans(n, 0);
+    for (int i = 0; i < n; i++)
+    {
+        if (nums[i] > 0)
+        {
+            ans[ipos] = nums[i];
+            ipos += 2;
+        }
+        else
+        {
+            ans[ineg] = nums[i];
+            ineg += 2;
+        }
+    }
+    return ans;
+}
