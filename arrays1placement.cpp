@@ -234,3 +234,27 @@ vector<int> rearrangeArray(vector<int> &nums)
     }
     return ans;
 }
+// majority elemnt without using hashmap
+int majorityElement(vector<int> &nums)
+{
+    int n = nums.size();
+    int count = 0;
+    int element;
+    for (int i = 0; i < n; i++)
+    {
+        if (count == 0)
+        {
+            count = 1;
+            element = nums[i];
+        }
+        else if (nums[i] == element)
+        {
+            count++;
+        }
+        else
+        {
+            count -= 1;
+        }
+    }
+    return element;
+}
