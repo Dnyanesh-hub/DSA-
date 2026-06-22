@@ -258,3 +258,52 @@ int majorityElement(vector<int> &nums)
     }
     return element;
 }
+// missing number from the array
+int missingNum(vector<int> &arr)
+{
+    // code here
+    int n = arr.size() + 1;
+    long long sum = 1LL * n * (n + 1) / 2;
+    long long rsum = 0;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        rsum += arr[i];
+    }
+    return (sum - rsum);
+}
+// missing number using bit manipulation o to n
+int missingNum(vector<int> &arr)
+{
+    // code here
+    int n = arr.size();
+    int res = n;
+    for (int i = 0; i < arr.size(); i++)
+    {
+        res = res ^ i ^ arr[i];
+    }
+    return res;
+}
+// leaders in the array
+vector<int> leaders(vector<int> &arr)
+{
+    vector<int> ans;
+    if (arr.empty())
+    {
+        return ans;
+    }
+
+    // code here
+    int n = arr.size();
+    int maxi = arr[n - 1];
+    ans.push_back(maxi);
+    for (int i = n - 2; i >= 0; i--)
+    {
+        if (arr[i] >= maxi)
+        {
+            ans.push_back(arr[i]);
+            maxi = arr[i];
+        }
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
