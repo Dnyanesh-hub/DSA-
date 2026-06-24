@@ -36,3 +36,16 @@ bool isPalindrome(string s)
     }
     return true;
 }
+// longest odd number in the string
+string largestOddNumber(string num)
+{
+    for (int i = num.size() - 1; i >= 0; i--)
+    {
+        if ((num[i] - '0') % 2 !=
+            0) // the ascii value of num[i] && '0' will give the number
+        {
+            return num.substr(0, i + 1);
+        }
+    }
+    return "";
+}
