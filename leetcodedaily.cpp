@@ -207,3 +207,31 @@ int maxNumberOfBalloons(string text)
     int n = freq['n' - 'a'];
     return min({b, a, l, o, n});
 }
+// 3737. Count Subarrays With Majority Element I
+// You are given an integer array nums and an integer target.
+// Return the number of subarrays of nums in which target is the majority element.
+// The majority element of a subarray is the element that appears strictly more than half of the times in that subarray.
+
+int countMajoritySubarrays(vector<int> &nums, int target)
+{
+    int n = nums.size();
+    int count = 0;
+    vector<int> vec = nums;
+    for (int i = 0; i < n; i++)
+    {
+        int freq = 0;
+        for (int j = i; j < n; j++)
+        {
+            if (vec[j] == target)
+            {
+                freq++;
+            }
+            int len = j - i + 1;
+            if (freq > (len / 2))
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+}
