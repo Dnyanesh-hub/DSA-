@@ -99,3 +99,47 @@ vector<vector<string>> groupAnagrams(vector<string> &strs)
     }
     return res;
 }
+
+// valid paranthesiis
+bool isValid(string s)
+{
+    stack<char> st;
+    for (int i = 0; i < s.size(); i++)
+    {
+        if (s[i] == '(' or s[i] == '{' or s[i] == '[')
+        {
+            st.push(s[i]);
+        }
+        else
+        {
+            if (st.empty())
+            { // i got closing bracket aat first and there
+              // is neither a open bracke t for that closing
+              // bracket
+                return false;
+            }
+            else
+            {
+                char c = st.top();
+                st.pop();
+                if (c == '(' && s[i] == ')' or c == '[' && s[i] == ']' or
+                    c == '{' && s[i] == '}')
+                {
+                    continue;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    if (st.empty())
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
