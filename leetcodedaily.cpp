@@ -235,3 +235,19 @@ int countMajoritySubarrays(vector<int> &nums, int target)
     }
     return count;
 }
+// 1967.Number of substrings that appear as a substring in a word
+// Given an array of strings patterns and a string word, return the number of strings in patterns that exist as a substring in word.
+// A substring is a contiguous sequence of characters within a string.
+
+int numOfStrings(vector<string> &patterns, string word)
+{
+    int count = 0;
+    for (string &pat : patterns)
+    {
+        if (word.find(pat) != string::npos)
+        {
+            count++;
+        }
+    }
+    return count;
+}
