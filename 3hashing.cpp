@@ -59,3 +59,33 @@ vector<vector<int>> threeSum(vector<int> &nums)
     }
     return ans;
 }
+// three sum closest
+int threeSumClosest(vector<int> &nums, int target)
+{
+    sort(nums.begin(), nums.end());
+    int closet = nums[0] + nums[1] + nums[2];
+    int n = nums.size();
+    for (int i = 0; i < n; i++)
+    {
+        int j = i + 1;
+        int k = n - 1;
+        while (j < k)
+        {
+            int sum = nums[i] + nums[j] + nums[k];
+
+            if (abs(sum - target) < abs(closet - target))
+            {
+                closet = sum;
+            }
+            else if (sum < target)
+            {
+                j++;
+            }
+            else
+            {
+                k--;
+            }
+        }
+    }
+    return closet;
+}
