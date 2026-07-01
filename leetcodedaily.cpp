@@ -281,3 +281,61 @@ int numberOfSubstrings(string s)
 
     return ans;
 }
+// 3286.find safe path  walk through the grid
+bool findSafeWalk(vector<vector<int>> &grid, int health)
+{
+    int m = grid.size();
+    int n = grid[0].size();
+
+    vector<vector<int>> best(m, vector<int>(n, -1));
+
+    queue<pair<pair<int, int>, int>> q;
+
+    int startHealth = health - grid[0][0];
+
+    if (startHealth <= 0)
+        return false;
+
+    q.push({{0, 0}, startHealth});
+    best[0][0] = startHealth;
+
+    int dr[] = {-1, 1, 0, 0};
+    int dc[] = {0, 0, -1, 1};
+
+    while (!q.empty())
+    {
+
+        auto current = q.front();
+        q.pop();
+
+        int row = current.first.first;
+        int col = current.first.second;
+        int currHealth = current.second;
+
+        if (row == m - 1 && col == n - 1)
+            return true;
+
+        for (int k = 0; k < 4; k++)
+        {
+
+            int nr = row + dr[k];
+            int nc = col + dc[k];
+
+            if (nr < 0 || nr >= m || nc < 0 || nc >= n)
+                continue;
+
+            int newHealth = currHealth - grid[nr][nc];
+
+            if (newHealth <= 0)
+                continue;
+
+            if (newHealth > best[nr][nc])
+            {
+                best[nr][nc] = newHealth;
+                q.push({{nr, nc}, newHealth});
+            }
+        }
+    }
+
+    return false;
+}
