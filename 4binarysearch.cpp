@@ -51,3 +51,27 @@ int lowerBound(vector<int> arr, int n, int x)
     }
     return ans; // Return the index of the lower bound
 }
+// upper bound
+// The upper bound algorithm finds the first or the smallest index in a sorted array where the value at that index is greater than the given key i.e. x.
+// The upper bound is the smallest index, ind, where arr[ind] > x
+int upperBound(vector<int> &arr, int x, int n)
+{
+    int low = 0, high = n - 1;
+    int ans = n; // Default answer if x is >= all elements
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] > x)
+        {
+            ans = mid;      // Potential answer found
+            high = mid - 1; // Try to find smaller valid index on the left
+        }
+        else
+        {
+            low = mid + 1; // Move right if mid is <= x
+        }
+    }
+    return ans; // Index of the first element > x
+}
