@@ -75,3 +75,71 @@ int upperBound(vector<int> &arr, int x, int n)
     }
     return ans; // Index of the first element > x
 }
+// find first and last occurance
+int first(vector<int> &nums, int target)
+{
+    int n = nums.size();
+    int first = -1;
+    int low = 0;
+    int high = n - 1;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (nums[mid] == target)
+        {
+            first = mid;
+            high = mid - 1;
+        }
+        else if (nums[mid] < target)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return first;
+}
+
+int last(vector<int> &nums, int target)
+{
+    int n = nums.size();
+    int last = -1;
+    int low = 0;
+    int high = n - 1;
+    while (low <= high)
+    {
+        int mid = (high + low) / 2;
+        if (nums[mid] == target)
+        {
+            last = mid;
+            low = mid + 1;
+        }
+        else if (nums[mid] < target)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return last;
+}
+
+vector<int> searchRange(vector<int> &nums, int target)
+{
+    vector<int> ans;
+    int fto = first(nums, target);
+    if (fto == -1)
+    {
+        ans.push_back(-1);
+        ans.push_back(-1);
+        return ans;
+    }
+    int lto = last(nums, target);
+    ans.push_back(fto);
+    ans.push_back(lto);
+    return ans;
+}
