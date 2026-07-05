@@ -221,3 +221,73 @@ int findMin(vector<int> &nums)
     }
     return ans;
 }
+// find peak element in
+// A peak element is an element that is strictly greater than its neighbors.
+// Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+// You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
+// You must write an algorithm that runs in O(log n) time.
+int findPeakElement(vector<int> &nums)
+{
+    int n = nums.size();
+    if (n == 1)
+    {
+        return 0;
+    }
+    if (nums[0] > nums[1])
+    {
+        return 0;
+    }
+    if (nums[n - 1] > nums[n - 2])
+    {
+        return n - 1;
+    }
+    int low = 1;
+    int high = n - 2;
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        if (nums[mid] > nums[mid - 1] && nums[mid] > nums[mid + 1])
+        {
+            return mid;
+        }
+        else if (nums[mid] > nums[mid - 1])
+        {
+            // peak lies on the right  of the mid
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
+// find how many times array has been rotated
+int findRotations(vector<int> &arr)
+{
+    // Initialize low and high pointers
+    int low = 0;
+    int high = arr.size() - 1;
+
+    // Loop until low meets high
+    while (low < high)
+    {
+        // Find mid index
+        int mid = low + (high - low) / 2;
+
+        // If mid element is greater than element at high,
+        // smallest element lies to the right of mid
+        if (arr[mid] > arr[high])
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            // Else smallest element is at mid or to the left
+            high = mid;
+        }
+    }
+
+    // When low == high, we found the smallest element
+    return low;
+}
