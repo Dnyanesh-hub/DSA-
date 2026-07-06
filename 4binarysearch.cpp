@@ -291,3 +291,4 @@ int findRotations(vector<int> &arr)
     // When low == high, we found the smallest element
     return low;
 }
+// 
