@@ -136,3 +136,39 @@ int findCircleNum(vector<vector<int>> &isConnected)
     }
     return count;
 }
+// flood fill
+// You are given an image represented by an m x n grid of integers image, where image[i][j] represents the pixel value of the image. You are also given three integers sr, sc, and color. Your task is to perform a flood fill on the image starting from the pixel image[sr][sc].
+// To perform a flood fill:
+// Begin with the starting pixel and change its color to color.
+// Perform the same process for each pixel that is directly adjacent (pixels that share a side with the original pixel, either horizontally or vertically) and shares the same color as the starting pixel.
+// Keep repeating this process by checking neighboring pixels of the updated pixels and modifying their color if it matches the original color of the starting pixel.
+// The process stops when there are no more adjacent pixels of the original color to update.
+// Return the modified image after performing the flood fill.
+void dfs(int row, int col, vector<vector<int>> &ans,
+         vector<vector<int>> &image, int delrow[], int delcol[], int color,
+         int iniColor)
+{
+    ans[row][col] = color;
+    int n = image.size();
+    int m = image[0].size();
+    for (int i = 0; i < 4; i++)
+    {
+        int nrow = row + delrow[i];
+        int ncol = col + delcol[i];
+        if (nrow < n && nrow >= 0 && ncol < m && ncol >= 0 &&
+            image[nrow][ncol] == iniColor && ans[nrow][ncol] != color)
+        {
+            dfs(nrow, ncol, ans, image, delrow, delcol, color, iniColor);
+        }
+    }
+}
+vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc,
+                              int color)
+{
+    int iniColor = image[sr][sc];
+    vector<vector<int>> ans = image; // cuz never ever tamper the given data
+    int delrow[] = {-1, 0, 1, 0};
+    int delcol[] = {0, 1, 0, -1};
+    dfs(sr, sc, ans, image, delrow, delcol, color, iniColor);
+    return ans;
+}
