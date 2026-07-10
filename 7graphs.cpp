@@ -172,3 +172,68 @@ vector<vector<int>> floodFill(vector<vector<int>> &image, int sr, int sc,
     dfs(sr, sc, ans, image, delrow, delcol, color, iniColor);
     return ans;
 }
+// rotting orangaes
+// You are given an m x n grid where each cell can have one of three values:
+// 0 representing an empty cell,
+// 1 representing a fresh orange, or
+// 2 representing a rotten orange.
+// Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten.
+// Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.
+int orangesRotting(vector<vector<int>> &grid)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    queue<pair<pair<int, int>, int>> q;
+    //{{r,c},t}
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (grid[i][j] == 2)
+            {
+                q.push({{i, j}, 0});
+                vis[i][j] =
+                    2; // collecting all rotten oranges as a starting point
+                       // and mark them as vis in visited array
+            }
+        }
+    }
+
+    int delrow[] = {-1, 0, 1, 0};
+    int delcol[] = {0, 1, 0, -1};
+    // now perform bfs algorithnm
+    int tm = 0;
+    while (!q.empty())
+    {
+        int r = q.front().first.first;
+        int c = q.front().first.second;
+        int t = q.front().second;
+        q.pop();
+        tm = max(t, tm);
+        // traversing the neigbhours
+        for (int i = 0; i < 4; i++)
+        {
+            int nrow = r + delrow[i];
+            int ncol = c + delcol[i];
+            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+                vis[nrow][ncol] != 2 && grid[nrow][ncol] == 1)
+            {
+                q.push({{nrow, ncol}, t + 1});
+                vis[nrow][ncol] = 2;
+            }
+        }
+    }
+    // rechecking for all the fresh oranges are rotten or not
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            if (grid[i][j] == 1 && vis[i][j] != 2)
+            {
+                return -1;
+            }
+        }
+    }
+    return tm;
+}
