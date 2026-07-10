@@ -24,7 +24,7 @@ void dfs(int v, vector<int> adj[],
 // bfs
 vector<int> bfs(vector<vector<int>> &adj)
 {
-    
+
     int n = adj.size();
     vector<int> bfs;
     vector<int> vis(n, 0);
@@ -48,44 +48,91 @@ vector<int> bfs(vector<vector<int>> &adj)
     return bfs;
 }
 // number of islands
-void bfs(int row,int col,vector<vector<int>>&vis,vector<vector<char>>&grid,int delrow[],int delcol[]){
-    vis[row][col]=1;
-    int n=grid.size();
-    int m=grid[0].size();
-    queue<pair<int,int>>q;
-    q.push({row,col});// pushing starting node into queue
-    while(!q.empty()){
-        int r=q.front().first;
-        int c=q.front().second;
+void bfs(int row, int col, vector<vector<int>> &vis, vector<vector<char>> &grid, int delrow[], int delcol[])
+{
+    vis[row][col] = 1;
+    int n = grid.size();
+    int m = grid[0].size();
+    queue<pair<int, int>> q;
+    q.push({row, col}); // pushing starting node into queue
+    while (!q.empty())
+    {
+        int r = q.front().first;
+        int c = q.front().second;
         q.pop();
-        for(int i=0;i<4;i++){
-            int nrow=r+delrow[i];
-            int ncol=c+delcol[i];
-            if(nrow<n && nrow>=0 && ncol<m && ncol>=0 && grid[nrow][ncol]=='1' && vis[nrow][ncol]==0){
-                q.push({nrow,ncol});
-                vis[nrow][ncol]=1;
-            }
-
-        }
-    }
-  }
-    int numIslands(vector<vector<char>>& grid) {
-        int n=grid.size();
-        int m=grid[0].size();
-        int delrow[]={-1,0,1,0};
-        int delcol[]={0,1,0,-1};
-        vector<vector<int>>vis(n,vector<int>(m,0));
-        int cnt=0;
-        for(int row=0;row<n;row++){
-            for(int col=0;col<m;col++){
-                if(!vis[row][col] && grid[row][col]=='1')
-                {   
-                    cnt++;
-                    bfs(row,col,vis,grid,delrow,delcol);
-                }
-
+        for (int i = 0; i < 4; i++)
+        {
+            int nrow = r + delrow[i];
+            int ncol = c + delcol[i];
+            if (nrow < n && nrow >= 0 && ncol < m && ncol >= 0 && grid[nrow][ncol] == '1' && vis[nrow][ncol] == 0)
+            {
+                q.push({nrow, ncol});
+                vis[nrow][ncol] = 1;
             }
         }
-        return cnt;
-        
     }
+}
+int numIslands(vector<vector<char>> &grid)
+{
+    int n = grid.size();
+    int m = grid[0].size();
+    int delrow[] = {-1, 0, 1, 0};
+    int delcol[] = {0, 1, 0, -1};
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    int cnt = 0;
+    for (int row = 0; row < n; row++)
+    {
+        for (int col = 0; col < m; col++)
+        {
+            if (!vis[row][col] && grid[row][col] == '1')
+            {
+                cnt++;
+                bfs(row, col, vis, grid, delrow, delcol);
+            }
+        }
+    }
+    return cnt;
+}
+// number of provinces
+// There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
+// A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+// You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
+// Return the total number of provinces
+void dfs(int node, vector<vector<int>> &adj, vector<int> &vis)
+{
+    vis[node] = 1;
+    for (auto it : adj[node])
+    {
+        if (!vis[it])
+        {
+            dfs(it, adj, vis);
+        }
+    }
+}
+int findCircleNum(vector<vector<int>> &isConnected)
+{
+    int n = isConnected.size();
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (isConnected[i][j] == 1 && i != j)
+            {
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+            }
+        }
+    }
+    vector<int> vis(n, 0);
+    int count = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (!vis[i])
+        {
+            count++;
+            dfs(i, adj, vis);
+        }
+    }
+    return count;
+}
